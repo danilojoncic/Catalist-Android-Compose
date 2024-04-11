@@ -70,16 +70,12 @@ fun BreedsListScreen(
                                 },
                             )
                         }
-
-
                         Spacer(modifier = Modifier.height(16.dp))
                     }
                 }
-
             }
         }
     )
-
 }
 
 @Composable

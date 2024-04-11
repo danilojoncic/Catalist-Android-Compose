@@ -35,6 +35,7 @@ data class Cat(
     val numberOfLives:Int
 ){
 
+
 }
 /*
 "url": "https://cdn2.thecatapi.com/images/0XYvRd7oD.jpg"

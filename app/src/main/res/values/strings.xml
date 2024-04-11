@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Catalist-Android-Compose</string>
+    <string name="list_screen_title">All breeds</string>
+    <string name="details_screen_title">Selected</string>
 </resources>
