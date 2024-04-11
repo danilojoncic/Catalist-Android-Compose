@@ -1,4 +1,4 @@
-package com.example.catalist_android_compose.breeds.compose.theme
+package com.example.catalist_android_compose.breeds.core.compose.theme
 
 import android.app.Activity
 import android.os.Build

@@ -1,4 +1,4 @@
-package com.example.catalist_android_compose.breeds.model
+package com.example.catalist_android_compose.breeds.domain
 
 data class Cat(
     val id: String,

@@ -19,7 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.catalist_android_compose.breeds.list.BreedsListScreen
-import com.example.catalist_android_compose.breeds.model.Cat
+import com.example.catalist_android_compose.breeds.domain.Cat
 import com.example.catalist_android_compose.breeds.repository.BreedRepository
 
 @OptIn(ExperimentalMaterial3Api::class)

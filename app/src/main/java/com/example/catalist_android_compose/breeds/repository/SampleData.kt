@@ -1,6 +1,6 @@
 package com.example.catalist_android_compose.breeds.repository
 
-import com.example.catalist_android_compose.breeds.model.Cat
+import com.example.catalist_android_compose.breeds.domain.Cat
 
 val SampleData = listOf(
     Cat(

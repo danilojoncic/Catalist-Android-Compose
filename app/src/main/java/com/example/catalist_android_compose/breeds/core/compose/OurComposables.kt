@@ -1,4 +1,4 @@
-package com.example.catalist_android_compose.breeds.compose
+package com.example.catalist_android_compose.breeds.core.compose
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton

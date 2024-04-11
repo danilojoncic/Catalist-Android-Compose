@@ -26,8 +26,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.catalist_android_compose.breeds.compose.theme.CatalistAndroidComposeTheme
-import com.example.catalist_android_compose.breeds.model.Cat
+import com.example.catalist_android_compose.breeds.core.compose.theme.CatalistAndroidComposeTheme
+import com.example.catalist_android_compose.breeds.domain.Cat
 import com.example.catalist_android_compose.breeds.repository.SampleData
 
 @OptIn(ExperimentalMaterial3Api::class)
