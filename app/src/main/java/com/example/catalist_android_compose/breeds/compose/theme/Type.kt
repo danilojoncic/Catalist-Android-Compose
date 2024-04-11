@@ -1,4 +1,4 @@
-package com.example.catalist_android_compose.ui.theme
+package com.example.catalist_android_compose.breeds.compose.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
