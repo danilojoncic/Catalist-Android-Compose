@@ -11,12 +11,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.catalist_android_compose.breeds.compose.theme.CatalistAndroidComposeTheme
+import com.example.catalist_android_compose.breeds.navigation.AppNavigation
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-
+            CatalistAndroidComposeTheme {
+                AppNavigation()
+            }
         }
     }
 }
