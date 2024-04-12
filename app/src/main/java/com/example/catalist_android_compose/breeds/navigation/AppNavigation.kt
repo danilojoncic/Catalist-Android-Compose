@@ -18,6 +18,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import breedDetailsScreen
 import com.example.catalist_android_compose.breeds.list.BreedsListScreen
 import com.example.catalist_android_compose.breeds.domain.Cat
 import com.example.catalist_android_compose.breeds.list.breedsListScreen
@@ -37,68 +38,17 @@ fun AppNavigation(){
             route = "list",
             navController = navController
         )
-
-        composable(
+        breedDetailsScreen(
             route = "details/{dataId}",
             arguments = listOf(
-                navArgument(name = "dataId"){
+                navArgument(name = "dataId") {
                     this.type = NavType.StringType
                     this.nullable = true
                 }
-            )
-        ) {navBackStackEntry ->
-            val dataId = navBackStackEntry.arguments?.getString("dataId")
-            //ako smo nesto pogrijesili sa unosom parametara ili rute stavicemo praznu macku
-            val data = if(dataId != null){
-                BreedRepository.getById(id = dataId)
-            }else{
-                Cat(id = "maca",
-                    weight = "0 lbs",
-                    name = "Empty",
-                    temperament = "Empty",
-                    origin = "Empty",
-                    description = "Empty.",
-                    lifeSpan = "Empty",
-                    indoor = 1,
-                    lap = 1,
-                    adaptability = 3,
-                    affectionLevels = 4,
-                    childFriendly = 1,
-                    dogFriendly = 1,
-                    energyLevel = 3,
-                    grooming = 2,
-                    healthIssues = 1,
-                    inteligence = 3,
-                    sheddingLevel = 2,
-                    socialNeeds = 3,
-                    strangerFriendly = 3,
-                    vocalisation = 2,
-                    experimental = 0,
-                    hairless = 0,
-                    natural = 1,
-                    rare = 0,
-                    rex = 0,
-                    shortLegs = 0,
-                    wikipediaLink = 0,
-                    hypoallergenic = 0,
-                    referenceImageId = "Empty",
-                    link = "Empty",
-                    numberOfLives = 1)
-            }
-            //sada se pitamo da li je macka koju smo povukli iz repozetorijuma dobra
-            if (data != null){
-                BreedDetailsScreen(
-                    data = data,
-                    onClose = {
-                        navController.navigateUp()
-                    }
+            ),
+            navController = navController
+        )
 
-                )
-            } else{
-                NoDataContent(id = dataId.toString())
-            }
-            //details screen
-        }
     }
 
 }

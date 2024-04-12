@@ -185,16 +185,3 @@ private fun CatListItem(
 
     }
 }
-
-
-//@OptIn(ExperimentalMaterial3Api::class)
-//@Preview
-//@Composable
-//fun PreviewPasswordListScreen() {
-//    CatalistAndroidComposeTheme {
-//        BreedsListScreen(
-//            items = SampleData,
-//            onItemClick = {}
-//        )
-//    }
-//}
