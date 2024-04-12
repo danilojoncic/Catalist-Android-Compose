@@ -2,6 +2,7 @@ package com.example.catalist_android_compose.breeds.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.catalist_android_compose.breeds.domain.Cat
 import com.example.catalist_android_compose.breeds.repository.BreedRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -41,10 +42,6 @@ class BreedsListViewModel constructor(
             }
         }
     }
-
-
-
-
     private fun fetchAllBreeds(){
         //pokrecemo novu korutinu da ui thread slucajno ne bi
         //ukljucili u ucitavanje jer ce onda da stane

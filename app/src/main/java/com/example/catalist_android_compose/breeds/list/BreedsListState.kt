@@ -15,4 +15,8 @@ data class BreedsListState(
     sealed class ListError {
         data class ListUpdateFailed(val cause: Throwable? = null) : ListError()
     }
+
+    fun filterForSearch(query: String) {
+        filteredBreeds = allBreedsFromState.filter { it.name.contains(query, ignoreCase = true) }
+    }
 }
