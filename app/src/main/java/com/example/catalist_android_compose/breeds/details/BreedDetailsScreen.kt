@@ -35,6 +35,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.example.catalist_android_compose.breeds.core.compose.AppIconButton
+import com.example.catalist_android_compose.breeds.core.compose.CoilImage
+import com.example.catalist_android_compose.breeds.core.compose.WikipediaButton
 import com.example.catalist_android_compose.breeds.details.BreedDetailsState
 import com.example.catalist_android_compose.breeds.details.BreedsDetailsViewModel
 
@@ -103,31 +105,17 @@ fun BreedDetailsScreen(
                     .verticalScroll(scrollState),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                //Spacer(modifier = Modifier.height(16.dp))
-
-                // Breed Name
+                if(state.data?.name.equals("tigar")){
+                    state.data?.let { CoilImage(url = "https://preview.redd.it/2h8agc9y3hx81.png?width=1080&crop=smart&auto=webp&s=527ddea80f673d5fc3c36b84ea91c2bec862e67c") }
+                }else{
+                    state.data?.let { CoilImage(url = it.url) }
+                }
                 Text(text = "Name: ${state.data?.name}")
-
-                // Description
                 Text(text = "Description: ${state.data?.description}")
-
-                // Origin
-                Text(text = "Origin: ${state.data?.origin}")
-
-                // Temperament
                 Text(text = "Temperament: ${state.data?.temperament}")
-
-                // Countries of Origin
                 Text(text = "Countries of Origin: ${state.data?.origin}")
-
-                // Life Span
                 Text(text = "Life Span: ${state.data?.lifeSpan}")
-
-                // Weight and/or Height
                 Text(text = "Weight: ${state.data?.weight}")
-                //Text(text = "Height: ${state.data?.}")
-
-                // Temperament Properties
                 Text(text = "Temperament Properties:")
                 Text(text = "Adaptability: ${state.data?.temperament}")
                 Text(text = "Adaptability: ${state.data?.adaptability}")
@@ -135,24 +123,15 @@ fun BreedDetailsScreen(
                 Text(text = "Child Friendly: ${state.data?.childFriendly}")
                 Text(text = "Dog Friendly: ${state.data?.dogFriendly}")
                 Text(text = "Energy Level: ${state.data?.energyLevel}")
-
-                // Additional Behavior and Needs Widgets
-                // Add your custom behavior and needs widgets here
-
-                // Rarity
                 Text(text = "Is Rare: ${if (state.data?.rare==1) "Yes" else "No"}")
-
                 TextButton(
                     onClick = {  },
                     modifier = Modifier.padding(top = 16.dp),
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(Icons.Default.Settings, contentDescription = "Wikipedia")
-                        Text(text = "Open Wikipedia")
+                        state.data?.wikipediaLink?.let { WikipediaButton(wikipediaLink = it) }
                     }
                 }
-                // Wikipedia Button
-                // Implement Wikipedia button here
             }
         },
     )

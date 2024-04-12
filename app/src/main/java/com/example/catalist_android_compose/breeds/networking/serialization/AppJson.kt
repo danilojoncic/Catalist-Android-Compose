@@ -1,4 +1,8 @@
 package com.example.catalist_android_compose.breeds.networking.serialization
 
-class AppJson {
+import kotlinx.serialization.json.Json
+
+val AppJson = Json {
+    ignoreUnknownKeys = true
+    prettyPrint = true
 }

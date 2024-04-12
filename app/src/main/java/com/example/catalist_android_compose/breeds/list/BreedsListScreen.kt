@@ -29,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -194,12 +195,63 @@ private fun CatListItem(
         }
         Spacer(modifier = Modifier.height(8.dp))
         if (data.temperament.isNotBlank()) { // Check if temperament is not empty
-            Row {
-                val temperamentList = data.temperament.split(", ") // Split temperament string into words
-                temperamentList.forEach { temperament ->
+            val temperamentList = data.temperament.split(", ") // Split temperament string into words
+            temperamentList.forEach { temperament ->
+                Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
                     AssistChipExample(title = temperament)
                 }
             }
         }
     }
+}
+
+
+@Preview(device = "spec:id=reference_phone,shape=Normal,width=411,height=891,unit=dp,dpi=420",
+    name = "ccxcz"
+)
+@Composable
+fun CatListItemPreview() {
+    val cat = Cat(
+        id = "1",
+        weight = "10",
+        name = "Persian",
+        alternateName = "Longhair",
+        temperament = "Sweet, Friendly",
+        origin = "Iran",
+        description = "The Persian cat is a long-haired breed of cat characterized by its round face and short muzzle. It is also known as the Persian Longhair.",
+        lifeSpan = "10-15 years",
+        indoor = 1,
+        lap = 1,
+        adaptability = 3,
+        affectionLevels = 5,
+        childFriendly = 4,
+        dogFriendly = 3,
+        energyLevel = 2,
+        grooming = 5,
+        healthIssues = 3,
+        inteligence = 3,
+        sheddingLevel = 4,
+        socialNeeds = 4,
+        strangerFriendly = 3,
+        vocalisation = 2,
+        experimental = 0,
+        hairless = 0,
+        natural = 0,
+        rare = 0,
+        rex = 0,
+        shortLegs = 0,
+        wikipediaLink = "https://en.wikipedia.org/wiki/Persian_cat",
+        hypoallergenic = 0,
+        referenceImageId = "abc123",
+        link = "",
+        numberOfLives = 9,
+        url = "bezveze"
+    )
+
+    CatListItem(
+        data = cat,
+        onClick = {}
+    )
 }

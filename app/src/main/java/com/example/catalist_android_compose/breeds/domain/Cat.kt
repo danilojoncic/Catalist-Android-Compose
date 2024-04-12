@@ -33,7 +33,8 @@ data class Cat(
     val hypoallergenic:Int,
     val referenceImageId:String,
     val link:String,
-    val numberOfLives:Int
+    val numberOfLives:Int,
+    val url: String
 ){
 
 
