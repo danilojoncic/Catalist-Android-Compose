@@ -34,6 +34,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.example.catalist_android_compose.breeds.core.compose.AssistChipExample
 import com.example.catalist_android_compose.breeds.domain.Cat
 
 
@@ -156,7 +157,7 @@ private fun CatListItem(
 ) {
     Card(
         modifier = Modifier
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 30.dp)
             .fillMaxWidth()
             .clickable {
                 onClick()
@@ -182,6 +183,22 @@ private fun CatListItem(
                 contentDescription = null,
             )
         }
-
+        Row {
+            Text(modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 16.dp)
+                .weight(weight = 1f),
+                text = if (data.alternateName != null && data.alternateName.isNotBlank()) "Also known as: ${data.alternateName}" else "Also known as: Unknown",
+            )
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        if (data.temperament.isNotBlank()) { // Check if temperament is not empty
+            Row {
+                val temperamentList = data.temperament.split(", ") // Split temperament string into words
+                temperamentList.forEach { temperament ->
+                    AssistChipExample(title = temperament)
+                }
+            }
+        }
     }
 }

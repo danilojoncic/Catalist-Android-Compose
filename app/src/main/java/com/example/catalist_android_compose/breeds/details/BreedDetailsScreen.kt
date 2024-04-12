@@ -79,7 +79,7 @@ fun BreedDetailsScreen(
                     )
                 },
                 title = {
-                    Text(text = "Selected Cat")
+                    Text(text = "${state.data?.name}")
                 }
             )
         },

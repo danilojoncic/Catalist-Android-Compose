@@ -4,6 +4,7 @@ data class Cat(
     val id: String,
     val weight: String,
     val name: String,
+    val alternateName: String,
     val temperament: String,
     val origin: String,
     val description: String,
