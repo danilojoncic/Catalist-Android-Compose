@@ -2,7 +2,9 @@ package com.example.catalist_android_compose.breeds.list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,25 +17,47 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.catalist_android_compose.breeds.core.compose.theme.CatalistAndroidComposeTheme
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
 import com.example.catalist_android_compose.breeds.domain.Cat
-import com.example.catalist_android_compose.breeds.repository.SampleData
+
+
+@ExperimentalMaterial3Api
+fun NavGraphBuilder.breedsListScreen(
+    route: String,
+    navController: NavController,
+)=composable(route = route) {
+    val breedsListViewModel = viewModel<BreedsListViewModel>()
+    val state by breedsListViewModel.state.collectAsState()
+
+    BreedsListScreen(
+            state = state,
+            onItemClick = {
+                navController.navigate(route = "details/${it.id}")
+            },
+        )
+    }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BreedsListScreen(
-    items: List<Cat>,
+    state: BreedsListState,
     onItemClick: (Cat) -> Unit,
 
 ){
@@ -46,37 +70,84 @@ fun BreedsListScreen(
 
         },
         content = {
-            // LazyColumn should be used for infinite lists which we will
-            // learn soon. In the meantime we can use Column with verticalScroll
-            // modifier so it can be scrollable.
-            val scrollState = rememberScrollState()
-            Column(
-                modifier = Modifier
-                    .verticalScroll(scrollState)
-                    .fillMaxSize()
-                    .padding(it),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Top,
-            ) {
-                Spacer(modifier = Modifier.height(16.dp))
-
-                items.forEach {
-                    Column {
-                        key(it.name) {
-                            CatListItem(
-                                data = it,
-                                onClick = {
-                                    onItemClick(it)
-                                },
-                            )
+            BreedsList(
+                paddingValues = it,
+                items = state.allBreedsFromState,
+                onItemClick = onItemClick,
+            )
+            if(state.allBreedsFromState.isEmpty()){
+                when (state.fetching) {
+                    true -> {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            CircularProgressIndicator()
                         }
-                        Spacer(modifier = Modifier.height(16.dp))
+                    }
+
+                    false -> {
+                        if (state.error != null) {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                val errorMessage = when (state.error) {
+                                    is BreedsListState.ListError.ListUpdateFailed ->
+                                        "Failed to load. Error message: ${state.error.cause?.message}."
+                                }
+                                Text(text = errorMessage)
+                            }
+                        } else {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                Text(text = "No cat breeds.")
+                            }
+                        }
                     }
                 }
             }
         }
     )
 }
+
+@Composable
+private fun BreedsList(
+    items:List<Cat>,
+    paddingValues: PaddingValues,
+    onItemClick: (Cat) -> Unit
+){
+    val scrollState = rememberScrollState()
+    Column(
+        modifier = Modifier
+            .verticalScroll(scrollState)
+            .fillMaxSize()
+            .padding(paddingValues),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top,
+    ) {
+        Spacer(modifier = Modifier.height(16.dp))
+
+        items.forEach {
+            Column {
+                key(it.name) {
+                    CatListItem(
+                        data = it,
+                        onClick = {
+                            onItemClick(it)
+                        },
+                    )
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+        }
+    }
+}
+
+
+
 
 @Composable
 private fun CatListItem(
@@ -116,14 +187,14 @@ private fun CatListItem(
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Preview
-@Composable
-fun PreviewPasswordListScreen() {
-    CatalistAndroidComposeTheme {
-        BreedsListScreen(
-            items = SampleData,
-            onItemClick = {}
-        )
-    }
-}
+//@OptIn(ExperimentalMaterial3Api::class)
+//@Preview
+//@Composable
+//fun PreviewPasswordListScreen() {
+//    CatalistAndroidComposeTheme {
+//        BreedsListScreen(
+//            items = SampleData,
+//            onItemClick = {}
+//        )
+//    }
+//}

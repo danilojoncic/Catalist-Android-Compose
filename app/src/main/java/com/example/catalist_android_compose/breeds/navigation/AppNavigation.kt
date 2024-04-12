@@ -20,6 +20,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.catalist_android_compose.breeds.list.BreedsListScreen
 import com.example.catalist_android_compose.breeds.domain.Cat
+import com.example.catalist_android_compose.breeds.list.breedsListScreen
 import com.example.catalist_android_compose.breeds.repository.BreedRepository
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -100,21 +101,6 @@ fun AppNavigation(){
         }
     }
 
-}
-
-@ExperimentalMaterial3Api
-private fun NavGraphBuilder.breedsListScreen(
-    route: String,
-    navController: NavController,
-) {
-    composable(route = route) {
-        BreedsListScreen(
-            items = BreedRepository.allCats(),
-            onItemClick = {
-                navController.navigate(route = "details/${it.id}")
-            },
-        )
-    }
 }
 
 @Composable
