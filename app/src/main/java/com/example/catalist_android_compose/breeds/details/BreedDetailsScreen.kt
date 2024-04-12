@@ -1,14 +1,23 @@
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -17,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -93,42 +103,66 @@ fun BreedDetailsScreen(
                     .verticalScroll(scrollState),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Text(text = "ID: ${state.data?.name}")
-                Text(text = "Weight: ${state.data?.weight}")
+                //Spacer(modifier = Modifier.height(16.dp))
+
+                // Breed Name
                 Text(text = "Name: ${state.data?.name}")
-                Text(text = "Temperament: ${state.data?.temperament}")
-                Text(text = "Origin: ${state.data?.origin}")
+
+                // Description
                 Text(text = "Description: ${state.data?.description}")
+
+                // Origin
+                Text(text = "Origin: ${state.data?.origin}")
+
+                // Temperament
+                Text(text = "Temperament: ${state.data?.temperament}")
+
+                // Countries of Origin
+                Text(text = "Countries of Origin: ${state.data?.origin}")
+
+                // Life Span
                 Text(text = "Life Span: ${state.data?.lifeSpan}")
-                Text(text = "Indoor: ${if (state.data?.indoor == 1) "Yes" else "No"}")
-                Text(text = "Lap: ${if (state.data?.lap == 1) "Yes" else "No"}")
+
+                // Weight and/or Height
+                Text(text = "Weight: ${state.data?.weight}")
+                //Text(text = "Height: ${state.data?.}")
+
+                // Temperament Properties
+                Text(text = "Temperament Properties:")
+                Text(text = "Adaptability: ${state.data?.temperament}")
                 Text(text = "Adaptability: ${state.data?.adaptability}")
-                Text(text = "Affection Levels: ${state.data?.affectionLevels}")
-                Text(text = "Child Friendly: ${if (state.data?.childFriendly == 1) "Yes" else "No"}")
-                Text(text = "Dog Friendly: ${if (state.data?.dogFriendly == 1) "Yes" else "No"}")
+                Text(text = "Affection Level: ${state.data?.affectionLevels}")
+                Text(text = "Child Friendly: ${state.data?.childFriendly}")
+                Text(text = "Dog Friendly: ${state.data?.dogFriendly}")
                 Text(text = "Energy Level: ${state.data?.energyLevel}")
-                Text(text = "Grooming: ${state.data?.grooming}")
-                Text(text = "Health Issues: ${state.data?.healthIssues}")
-                Text(text = "Intelligence: ${state.data?.inteligence}")
-                Text(text = "Shedding Level: ${state.data?.sheddingLevel}")
-                Text(text = "Social Needs: ${state.data?.socialNeeds}")
-                Text(text = "Stranger Friendly: ${state.data?.strangerFriendly}")
-                Text(text = "Vocalisation: ${state.data?.vocalisation}")
-                Text(text = "Experimental: ${if (state.data?.experimental == 1) "Yes" else "No"}")
-                Text(text = "Hairless: ${if (state.data?.hairless == 1) "Yes" else "No"}")
-                Text(text = "Natural: ${if (state.data?.natural == 1) "Yes" else "No"}")
-                Text(text = "Rare: ${if (state.data?.rare == 1) "Yes" else "No"}")
-                Text(text = "Rex: ${if (state.data?.rex == 1) "Yes" else "No"}")
-                Text(text = "Short Legs: ${if (state.data?.shortLegs == 1) "Yes" else "No"}")
-                Text(text = "Wikipedia Link: ${if (state.data?.wikipediaLink == 1) "Yes" else "No"}")
-                Text(text = "Hypoallergenic: ${if (state.data?.hypoallergenic == 1) "Yes" else "No"}")
-                Text(text = "Reference Image ID: ${state.data?.referenceImageId}")
-                Text(text = "Link: ${state.data?.link}")
-                Text(text = "Number of Lives: ${state.data?.numberOfLives}")
+
+                // Additional Behavior and Needs Widgets
+                // Add your custom behavior and needs widgets here
+
+                // Rarity
+                Text(text = "Is Rare: ${if (state.data?.rare==1) "Yes" else "No"}")
+
+                TextButton(
+                    onClick = {  },
+                    modifier = Modifier.padding(top = 16.dp),
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(Icons.Default.Settings, contentDescription = "Wikipedia")
+                        Text(text = "Open Wikipedia")
+                    }
+                }
+                // Wikipedia Button
+                // Implement Wikipedia button here
             }
         },
     )
 }
+//
+//@Composable
+//fun openWikipediaLink(link: String) {
+//    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
+//    context.startActivity(intent)
+//}
 
 
 //composable(
