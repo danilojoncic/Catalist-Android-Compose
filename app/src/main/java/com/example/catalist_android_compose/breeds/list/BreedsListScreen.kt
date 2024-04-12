@@ -65,7 +65,7 @@ fun BreedsListScreen(
     Scaffold(
         topBar = {
             Column {
-                CenterAlignedTopAppBar(title = { Text(text = "All cat breeds:") })
+                CenterAlignedTopAppBar(title = { Text(text = "A Cat List: Catalist") })
                 Divider()
             }
 
@@ -169,12 +169,13 @@ private fun CatListItem(
         )
 
         Row {
+            val description_sentences = data.description.split(".")
             Text(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .padding(bottom = 16.dp)
                     .weight(weight = 1f),
-                text = data.description,
+                text = description_sentences.get(0),
             )
 
             Icon(
