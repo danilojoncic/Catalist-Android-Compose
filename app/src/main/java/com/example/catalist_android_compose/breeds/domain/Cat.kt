@@ -29,7 +29,7 @@ data class Cat(
     val rare:Int,
     val rex:Int,
     val shortLegs:Int,
-    val wikipediaLink:Int,
+    val wikipediaLink:String,
     val hypoallergenic:Int,
     val referenceImageId:String,
     val link:String,
