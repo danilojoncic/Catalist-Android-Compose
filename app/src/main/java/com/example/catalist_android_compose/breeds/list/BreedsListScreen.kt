@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -31,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -52,6 +54,9 @@ fun NavGraphBuilder.breedsListScreen(
             onItemClick = {
                 navController.navigate(route = "details/${it.id}")
             },
+//            onSearch = {
+//                println("INPUT FOR SEARCH")
+//            }
         )
     }
 
@@ -61,6 +66,7 @@ fun NavGraphBuilder.breedsListScreen(
 fun BreedsListScreen(
     state: BreedsListState,
     onItemClick: (Cat) -> Unit,
+    //onSearch: (String) ->Unit
 
 ){
     Scaffold(
@@ -72,6 +78,9 @@ fun BreedsListScreen(
 
         },
         content = {
+//            SearchBar(
+//                onSearch = onSearch
+//            )
             BreedsList(
                 paddingValues = it,
                 items = state.allBreedsFromState,
@@ -166,7 +175,8 @@ private fun CatListItem(
     ) {
         Text(
             modifier = Modifier.padding(all = 16.dp),
-            text = data.name
+            text = data.name,
+            fontSize = 32.sp
         )
 
         Row {
@@ -196,9 +206,11 @@ private fun CatListItem(
         Spacer(modifier = Modifier.height(8.dp))
         if (data.temperament.isNotBlank()) { // Check if temperament is not empty
             val temperamentList = data.temperament.split(", ") // Split temperament string into words
-            temperamentList.forEach { temperament ->
+            temperamentList.take(3).forEach { temperament ->
                 Row(
+                    modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
             ) {
                     AssistChipExample(title = temperament)
                 }

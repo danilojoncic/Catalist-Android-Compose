@@ -1,10 +1,12 @@
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -27,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -35,7 +38,10 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.example.catalist_android_compose.breeds.core.compose.AppIconButton
+import com.example.catalist_android_compose.breeds.core.compose.AssistChipExample
+import com.example.catalist_android_compose.breeds.core.compose.BreedAttributeScoring
 import com.example.catalist_android_compose.breeds.core.compose.CoilImage
+import com.example.catalist_android_compose.breeds.core.compose.RareIndicator
 import com.example.catalist_android_compose.breeds.core.compose.WikipediaButton
 import com.example.catalist_android_compose.breeds.details.BreedDetailsState
 import com.example.catalist_android_compose.breeds.details.BreedsDetailsViewModel
@@ -110,20 +116,31 @@ fun BreedDetailsScreen(
                 }else{
                     state.data?.let { CoilImage(url = it.url) }
                 }
-                Text(text = "Name: ${state.data?.name}")
+                Text(text = "Name: ${state.data?.name}", fontSize = 32.sp)
                 Text(text = "Description: ${state.data?.description}")
-                Text(text = "Temperament: ${state.data?.temperament}")
                 Text(text = "Countries of Origin: ${state.data?.origin}")
                 Text(text = "Life Span: ${state.data?.lifeSpan}")
                 Text(text = "Weight: ${state.data?.weight}")
                 Text(text = "Temperament Properties:")
-                Text(text = "Adaptability: ${state.data?.temperament}")
-                Text(text = "Adaptability: ${state.data?.adaptability}")
-                Text(text = "Affection Level: ${state.data?.affectionLevels}")
-                Text(text = "Child Friendly: ${state.data?.childFriendly}")
-                Text(text = "Dog Friendly: ${state.data?.dogFriendly}")
-                Text(text = "Energy Level: ${state.data?.energyLevel}")
-                Text(text = "Is Rare: ${if (state.data?.rare==1) "Yes" else "No"}")
+                if (state.data?.temperament?.isNotBlank() == true) { // Check if temperament is not empty
+                    val temperamentList = state.data?.temperament?.split(", ") // Split temperament string into words
+                    temperamentList?.forEach { temperament ->
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            AssistChipExample(title = temperament)
+                        }
+                    }
+                }
+                BreedAttributeScoring("Adaptability", state.data?.adaptability ?: 0)
+                BreedAttributeScoring("Affection Level", state.data?.affectionLevels ?: 0)
+                BreedAttributeScoring("Child Friendly", state.data?.childFriendly ?: 0)
+                BreedAttributeScoring("Dog Friendly", state.data?.dogFriendly ?: 0)
+                BreedAttributeScoring("Energy Levels", state.data?.energyLevel ?: 0)
+                BreedAttributeScoring("Energy Levels", state.data?.energyLevel ?: 0)
+                RareIndicator(isRare = state.data?.rare == 1)
                 TextButton(
                     onClick = {  },
                     modifier = Modifier.padding(top = 16.dp),
