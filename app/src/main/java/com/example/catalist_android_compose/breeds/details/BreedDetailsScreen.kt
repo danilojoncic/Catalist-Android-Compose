@@ -2,6 +2,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,6 +15,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MediumTopAppBar
@@ -116,37 +119,46 @@ fun BreedDetailsScreen(
                 }else{
                     state.data?.let { CoilImage(url = it.url) }
                 }
-                Text(text = "Name: ${state.data?.name}", fontSize = 32.sp)
-                Text(text = "Description: ${state.data?.description}")
-                Text(text = "Countries of Origin: ${state.data?.origin}")
-                Text(text = "Life Span: ${state.data?.lifeSpan}")
-                Text(text = "Weight: ${state.data?.weight}")
-                Text(text = "Temperament Properties:")
-                if (state.data?.temperament?.isNotBlank() == true) { // Check if temperament is not empty
-                    val temperamentList = state.data?.temperament?.split(", ") // Split temperament string into words
-                    temperamentList?.forEach { temperament ->
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            AssistChipExample(title = temperament)
+                Card (
+                    Modifier.padding(horizontal = 30.dp)
+                    .fillMaxWidth(),shape= CardDefaults.outlinedShape){
+                    Text(text = "${state.data?.name}", fontSize = 32.sp)
+                    Text(text = "Description: ${state.data?.description}", fontSize = 20.sp)
+                    Text(text = "Countries of Origin: ${state.data?.origin}",fontSize = 20.sp)
+                    Text(text = "Life Span: ${state.data?.lifeSpan}",fontSize = 20.sp)
+                    Text(text = "Weight: ${state.data?.weight}",fontSize = 20.sp)
+                    Text(text = "Temperament Properties:",fontSize = 20.sp)
+                    if (state.data?.temperament?.isNotBlank() == true) { // Check if temperament is not empty
+                        val temperamentList = state.data?.temperament?.split(", ") // Split temperament string into words
+                        temperamentList?.forEach { temperament ->
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                AssistChipExample(title = temperament)
+                            }
                         }
                     }
-                }
-                BreedAttributeScoring("Adaptability", state.data?.adaptability ?: 0)
-                BreedAttributeScoring("Affection Level", state.data?.affectionLevels ?: 0)
-                BreedAttributeScoring("Child Friendly", state.data?.childFriendly ?: 0)
-                BreedAttributeScoring("Dog Friendly", state.data?.dogFriendly ?: 0)
-                BreedAttributeScoring("Energy Levels", state.data?.energyLevel ?: 0)
-                BreedAttributeScoring("Energy Levels", state.data?.energyLevel ?: 0)
-                RareIndicator(isRare = state.data?.rare == 1)
-                TextButton(
-                    onClick = {  },
-                    modifier = Modifier.padding(top = 16.dp),
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        state.data?.wikipediaLink?.let { WikipediaButton(wikipediaLink = it) }
+                    BreedAttributeScoring("Adaptability", state.data?.adaptability ?: 0)
+                    BreedAttributeScoring("Affection Level", state.data?.affectionLevels ?: 0)
+                    BreedAttributeScoring("Child Friendly", state.data?.childFriendly ?: 0)
+                    BreedAttributeScoring("Dog Friendly", state.data?.dogFriendly ?: 0)
+                    BreedAttributeScoring("Energy Levels", state.data?.energyLevel ?: 0)
+                    BreedAttributeScoring("Energy Levels", state.data?.energyLevel ?: 0)
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        RareIndicator(isRare = state.data?.rare == 1)
+                    }
+                    TextButton(
+                        onClick = {  },
+                        modifier = Modifier.padding(top = 16.dp),
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            state.data?.wikipediaLink?.let { WikipediaButton(wikipediaLink = it) }
+                        }
                     }
                 }
             }

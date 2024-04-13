@@ -6,7 +6,7 @@ import com.example.catalist_android_compose.breeds.domain.Cat
 fun mapCatApiModelToCat(catApiModel: CatApiModel): Cat {
     return Cat(
         id = catApiModel.id?:"",
-        weight = "${catApiModel.weight?.metric ?:20}",
+        weight = "${catApiModel.weight.metric ?:20}",
         name = catApiModel.name?:"",
         alternateName = catApiModel.alt_names ?: "",
         temperament = catApiModel.temperament?:"",

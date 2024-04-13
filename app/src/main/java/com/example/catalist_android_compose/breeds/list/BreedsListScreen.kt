@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -30,7 +29,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -38,8 +36,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.example.catalist_android_compose.breeds.core.compose.AssistChipExample
+import com.example.catalist_android_compose.breeds.core.compose.SearchBar
 import com.example.catalist_android_compose.breeds.domain.Cat
-
 
 @ExperimentalMaterial3Api
 fun NavGraphBuilder.breedsListScreen(
@@ -54,9 +52,9 @@ fun NavGraphBuilder.breedsListScreen(
             onItemClick = {
                 navController.navigate(route = "details/${it.id}")
             },
-//            onSearch = {
-//                println("INPUT FOR SEARCH")
-//            }
+            onSearch = {
+                navController.navigate(route = "search")
+            }
         )
     }
 
@@ -66,7 +64,7 @@ fun NavGraphBuilder.breedsListScreen(
 fun BreedsListScreen(
     state: BreedsListState,
     onItemClick: (Cat) -> Unit,
-    //onSearch: (String) ->Unit
+    onSearch: () ->Unit
 
 ){
     Scaffold(
@@ -74,13 +72,13 @@ fun BreedsListScreen(
             Column {
                 CenterAlignedTopAppBar(title = { Text(text = "A Cat List: Catalist") })
                 Divider()
+                SearchBar(
+                    onClick = onSearch
+                )
             }
 
         },
         content = {
-//            SearchBar(
-//                onSearch = onSearch
-//            )
             BreedsList(
                 paddingValues = it,
                 items = state.allBreedsFromState,
@@ -160,6 +158,7 @@ private fun BreedsList(
 
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CatListItem(
     data: Cat,
@@ -196,22 +195,24 @@ private fun CatListItem(
             )
         }
         Row {
-            Text(modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .padding(bottom = 16.dp)
-                .weight(weight = 1f),
+            Text(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .padding(bottom = 16.dp)
+                    .weight(weight = 1f),
                 text = if (data.alternateName != null && data.alternateName.isNotBlank()) "Also known as: ${data.alternateName}" else "Also known as: Unknown",
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
         if (data.temperament.isNotBlank()) { // Check if temperament is not empty
-            val temperamentList = data.temperament.split(", ") // Split temperament string into words
+            val temperamentList =
+                data.temperament.split(", ") // Split temperament string into words
             temperamentList.take(3).forEach { temperament ->
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
                     AssistChipExample(title = temperament)
                 }
             }
@@ -219,51 +220,51 @@ private fun CatListItem(
     }
 }
 
-
-@Preview(device = "spec:id=reference_phone,shape=Normal,width=411,height=891,unit=dp,dpi=420",
-    name = "ccxcz"
-)
-@Composable
-fun CatListItemPreview() {
-    val cat = Cat(
-        id = "1",
-        weight = "10",
-        name = "Persian",
-        alternateName = "Longhair",
-        temperament = "Sweet, Friendly",
-        origin = "Iran",
-        description = "The Persian cat is a long-haired breed of cat characterized by its round face and short muzzle. It is also known as the Persian Longhair.",
-        lifeSpan = "10-15 years",
-        indoor = 1,
-        lap = 1,
-        adaptability = 3,
-        affectionLevels = 5,
-        childFriendly = 4,
-        dogFriendly = 3,
-        energyLevel = 2,
-        grooming = 5,
-        healthIssues = 3,
-        inteligence = 3,
-        sheddingLevel = 4,
-        socialNeeds = 4,
-        strangerFriendly = 3,
-        vocalisation = 2,
-        experimental = 0,
-        hairless = 0,
-        natural = 0,
-        rare = 0,
-        rex = 0,
-        shortLegs = 0,
-        wikipediaLink = "https://en.wikipedia.org/wiki/Persian_cat",
-        hypoallergenic = 0,
-        referenceImageId = "abc123",
-        link = "",
-        numberOfLives = 9,
-        url = "bezveze"
-    )
-
-    CatListItem(
-        data = cat,
-        onClick = {}
-    )
-}
+//
+//@Preview(device = "spec:id=reference_phone,shape=Normal,width=411,height=891,unit=dp,dpi=420",
+//    name = "ccxcz"
+//)
+//@Composable
+//fun CatListItemPreview() {
+//    val cat = Cat(
+//        id = "1",
+//        weight = "10",
+//        name = "Persian",
+//        alternateName = "Longhair",
+//        temperament = "Sweet, Friendly",
+//        origin = "Iran",
+//        description = "The Persian cat is a long-haired breed of cat characterized by its round face and short muzzle. It is also known as the Persian Longhair.",
+//        lifeSpan = "10-15 years",
+//        indoor = 1,
+//        lap = 1,
+//        adaptability = 3,
+//        affectionLevels = 5,
+//        childFriendly = 4,
+//        dogFriendly = 3,
+//        energyLevel = 2,
+//        grooming = 5,
+//        healthIssues = 3,
+//        inteligence = 3,
+//        sheddingLevel = 4,
+//        socialNeeds = 4,
+//        strangerFriendly = 3,
+//        vocalisation = 2,
+//        experimental = 0,
+//        hairless = 0,
+//        natural = 0,
+//        rare = 0,
+//        rex = 0,
+//        shortLegs = 0,
+//        wikipediaLink = "https://en.wikipedia.org/wiki/Persian_cat",
+//        hypoallergenic = 0,
+//        referenceImageId = "abc123",
+//        link = "",
+//        numberOfLives = 9,
+//        url = "bezveze"
+//    )
+//
+//    CatListItem(
+//        data = cat,
+//        onClick = {}
+//    )
+//}
