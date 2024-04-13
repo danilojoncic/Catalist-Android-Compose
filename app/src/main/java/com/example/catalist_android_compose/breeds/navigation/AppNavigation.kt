@@ -19,9 +19,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import breedDetailsScreen
+import breedSearchScreen
 import com.example.catalist_android_compose.breeds.list.BreedsListScreen
 import com.example.catalist_android_compose.breeds.domain.Cat
-import com.example.catalist_android_compose.breeds.list.breedSearchScreen
 import com.example.catalist_android_compose.breeds.list.breedsListScreen
 import com.example.catalist_android_compose.breeds.repository.BreedRepository
 
@@ -52,23 +52,6 @@ fun AppNavigation(){
         breedSearchScreen(
             route = "search",
             navController = navController
-        )
-
-    }
-
-}
-
-@Composable
-private fun NoDataContent(
-    id: String,
-) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
-    ) {
-        Text(
-            text = "There is no data for id '$id'.",
-            fontSize = 18.sp,
         )
     }
 }

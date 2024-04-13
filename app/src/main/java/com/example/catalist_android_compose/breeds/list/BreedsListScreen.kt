@@ -16,6 +16,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
@@ -23,12 +25,14 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -37,6 +41,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.example.catalist_android_compose.breeds.core.compose.AssistChipExample
 import com.example.catalist_android_compose.breeds.core.compose.SearchBar
+import com.example.catalist_android_compose.breeds.core.compose.theme.Pink40
+import com.example.catalist_android_compose.breeds.core.compose.theme.Purple80
 import com.example.catalist_android_compose.breeds.domain.Cat
 
 @ExperimentalMaterial3Api
@@ -70,7 +76,8 @@ fun BreedsListScreen(
     Scaffold(
         topBar = {
             Column {
-                CenterAlignedTopAppBar(title = { Text(text = "A Cat List: Catalist") })
+                CenterAlignedTopAppBar(colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    Purple80), title = { Text(text = "A Cat List: Catalist") })
                 Divider()
                 SearchBar(
                     onClick = onSearch
@@ -171,7 +178,8 @@ private fun CatListItem(
             .clickable {
                 onClick()
             },
-    ) {
+        colors = CardDefaults.cardColors(Purple80) // Pinkish color
+    )  {
         Text(
             modifier = Modifier.padding(all = 16.dp),
             text = data.name,

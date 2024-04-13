@@ -1,4 +1,3 @@
-package com.example.catalist_android_compose.breeds.list
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
@@ -43,12 +42,16 @@ import com.example.catalist_android_compose.breeds.core.compose.AppIconButton
 import com.example.catalist_android_compose.breeds.core.compose.AssistChipExample
 import com.example.catalist_android_compose.breeds.core.compose.SearchBar
 import com.example.catalist_android_compose.breeds.domain.Cat
+import com.example.catalist_android_compose.breeds.list.BreedsListState
+import com.example.catalist_android_compose.breeds.list.BreedsListViewModel
 
 @ExperimentalMaterial3Api
 fun NavGraphBuilder.breedSearchScreen(
     route: String,
     navController: NavController,
 )=composable(route = route) {
+    //da bi funkcionisalo moram imati view model i state
+    //trenutno state i viewmodel sam preuzeo iz liste
     val breedsListViewModel = viewModel<BreedsListViewModel>()
     val state by breedsListViewModel.state.collectAsState()
 
@@ -88,7 +91,6 @@ fun BreedSearchScreen(
             }
         },
         content = {
-            // Empty content block
         }
     )
 }

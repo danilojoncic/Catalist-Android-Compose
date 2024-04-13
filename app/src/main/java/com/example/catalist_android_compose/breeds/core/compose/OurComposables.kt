@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -42,6 +43,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 
 @Composable
@@ -78,12 +80,14 @@ fun AssistChipExample(title: String) {
 @Composable
 fun CoilImage(url:String){
     Box(modifier = Modifier
-        .height((400.dp))
-        .width(400.dp),
+        .height((500.dp))
+        .width(500.dp),
+            //.fillMaxHeight(),
         contentAlignment = Alignment.Center
+
     ){
         val painter = rememberImagePainter(data = url)
-        Image(painter = painter, contentDescription = "opis")
+        Image(painter = painter, contentDescription = "opis",Modifier.fillMaxSize())
     }
 }
 
@@ -152,7 +156,7 @@ fun SearchBar(onClick: () -> Unit) {
             label = { Text("Search") },
             leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search") },
             singleLine = true,
-            colors = TextFieldDefaults.textFieldColors(containerColor = Color.White)
+            colors = TextFieldDefaults.textFieldColors(containerColor = Color.Transparent)
         )
 
         IconButton(
@@ -194,22 +198,20 @@ fun RareIndicator(isRare: Boolean) {
     }
 }
 
-//@Composable
-//fun SearchBar() {
-//    var searchText by remember { mutableStateOf("") }
-//
-//    TextField(
-//        value = searchText,
-//        onValueChange = { searchText = it },
-//        label = { Text("Search") },
-//        modifier = Modifier.fillMaxWidth()
-//    )
-//
-//    Button(
-//        modifier = Modifier.padding(top = 8.dp),
-//    ) {
-//        Text("Search")
-//    }
-//}
+
+@Composable
+private fun NoDataContent(
+    id: String,
+) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(
+            text = "There is no data for id '$id'.",
+            fontSize = 18.sp,
+        )
+    }
+}
 
 
