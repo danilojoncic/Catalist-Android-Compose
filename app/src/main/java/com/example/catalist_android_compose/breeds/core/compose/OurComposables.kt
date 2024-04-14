@@ -137,7 +137,7 @@ fun BreedAttributeScoring(attributeName: String, attributeValue: Int) {
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchBar(onClick: () -> Unit) {
+fun SearchBar(onClick: (String) -> Unit) {
 
     var searchText by remember { mutableStateOf("") }
 
@@ -160,7 +160,7 @@ fun SearchBar(onClick: () -> Unit) {
         )
 
         IconButton(
-            onClick = onClick, // Trigger the search when the button is clicked
+            onClick = { onClick(searchText) }, // Trigger the search when the button is clicked
             modifier = Modifier.size(48.dp)
         ) {
             Icon(Icons.Default.Search, contentDescription = "Search")

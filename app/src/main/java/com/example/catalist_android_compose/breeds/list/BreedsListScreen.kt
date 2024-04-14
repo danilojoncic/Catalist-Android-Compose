@@ -58,8 +58,8 @@ fun NavGraphBuilder.breedsListScreen(
             onItemClick = {
                 navController.navigate(route = "details/${it.id}")
             },
-            onSearch = {
-                navController.navigate(route = "search")
+            onSearch = { query ->
+                breedsListViewModel.processUIEvent(SearchUIEvent.SeatchQueryChanged(query))
             }
         )
     }
@@ -70,7 +70,7 @@ fun NavGraphBuilder.breedsListScreen(
 fun BreedsListScreen(
     state: BreedsListState,
     onItemClick: (Cat) -> Unit,
-    onSearch: () ->Unit
+    onSearch: (String) ->Unit
 
 ){
     Scaffold(
@@ -86,40 +86,47 @@ fun BreedsListScreen(
 
         },
         content = {
-            BreedsList(
-                paddingValues = it,
-                items = state.allBreedsFromState,
-                onItemClick = onItemClick,
-            )
-            if(state.allBreedsFromState.isEmpty()){
-                when (state.fetching) {
-                    true -> {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            CircularProgressIndicator()
-                        }
-                    }
-
-                    false -> {
-                        if (state.error != null) {
+            if(state.filteredBreeds.isNotEmpty()){
+                BreedsList(
+                    paddingValues = it,
+                    items = state.filteredBreeds,
+                    onItemClick = onItemClick)
+            }else{
+                BreedsList(
+                    paddingValues = it,
+                    items = state.allBreedsFromState,
+                    onItemClick = onItemClick,
+                )
+                if(state.allBreedsFromState.isEmpty()){
+                    when (state.fetching) {
+                        true -> {
                             Box(
                                 modifier = Modifier.fillMaxSize(),
                                 contentAlignment = Alignment.Center,
                             ) {
-                                val errorMessage = when (state.error) {
-                                    is BreedsListState.ListError.ListUpdateFailed ->
-                                        "Failed to load. Error message: ${state.error.cause?.message}."
-                                }
-                                Text(text = errorMessage)
+                                CircularProgressIndicator()
                             }
-                        } else {
-                            Box(
-                                modifier = Modifier.fillMaxSize(),
-                                contentAlignment = Alignment.Center,
-                            ) {
-                                Text(text = "No cat breeds.")
+                        }
+
+                        false -> {
+                            if (state.error != null) {
+                                Box(
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentAlignment = Alignment.Center,
+                                ) {
+                                    val errorMessage = when (state.error) {
+                                        is BreedsListState.ListError.ListUpdateFailed ->
+                                            "Failed to load. Error message: ${state.error.cause?.message}."
+                                    }
+                                    Text(text = errorMessage)
+                                }
+                            } else {
+                                Box(
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentAlignment = Alignment.Center,
+                                ) {
+                                    Text(text = "No cat breeds.")
+                                }
                             }
                         }
                     }

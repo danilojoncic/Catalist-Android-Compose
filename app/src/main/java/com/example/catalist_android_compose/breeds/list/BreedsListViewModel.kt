@@ -64,4 +64,24 @@ class BreedsListViewModel constructor(
             }
         }
     }
+
+
+
+    //mozda bi moglo efikasnije da se odradi
+    fun processUIEvent(event : SearchUIEvent) {
+        when (event) {
+            is SearchUIEvent.SeatchQueryChanged -> {
+                if(!event.query.equals("")) {
+                    _state.value = _state.value.copy(searchQuery = event.query)
+                    val filtered = _state.value.allBreedsFromState.filter {
+                        it.name.contains(event.query, ignoreCase = true)
+                    }
+                    _state.value = _state.value.copy(filteredBreeds = filtered)
+                }else{
+                    val filtered = _state.value.allBreedsFromState
+                    _state.value = _state.value.copy(filteredBreeds = filtered)
+                }
+            }
+        }
+    }
 }

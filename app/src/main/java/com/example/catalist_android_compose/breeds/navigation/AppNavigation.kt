@@ -19,7 +19,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import breedDetailsScreen
-import breedSearchScreen
 import com.example.catalist_android_compose.breeds.list.BreedsListScreen
 import com.example.catalist_android_compose.breeds.domain.Cat
 import com.example.catalist_android_compose.breeds.list.breedsListScreen
@@ -49,9 +48,6 @@ fun AppNavigation(){
             ),
             navController = navController
         )
-        breedSearchScreen(
-            route = "search",
-            navController = navController
-        )
+
     }
 }

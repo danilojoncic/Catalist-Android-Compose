@@ -4,6 +4,7 @@ import com.example.catalist_android_compose.breeds.domain.Cat
 
 data class BreedsListState(
     val fetching: Boolean = false,
+    val searchQuery: String = "",
     //puna lista koju fetchujem
     val allBreedsFromState: List<Cat> = emptyList(),
     //filtrirana lista cije ce vrijednosti da se mijenjaju nakon filtera u search
@@ -14,9 +15,5 @@ data class BreedsListState(
     //onda cemo to i da uradimo koliko i mozemo
     sealed class ListError {
         data class ListUpdateFailed(val cause: Throwable? = null) : ListError()
-    }
-
-    fun filterForSearch(query: String) {
-        filteredBreeds = allBreedsFromState.filter { it.name.contains(query, ignoreCase = true) }
     }
 }
