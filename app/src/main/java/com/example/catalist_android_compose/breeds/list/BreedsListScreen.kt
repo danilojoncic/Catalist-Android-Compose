@@ -88,47 +88,44 @@ fun BreedsListScreen(
 
         },
         content = {
-            if(state.filteredBreeds.isNotEmpty()){
-                BreedsList(
-                    paddingValues = it,
-                    items = state.filteredBreeds,
-                    onItemClick = onItemClick)
-            }else{
-                BreedsList(
-                    paddingValues = it,
-                    items = state.allBreedsFromState,
-                    onItemClick = onItemClick,
-                )
-                if(state.allBreedsFromState.isEmpty()){
-                    when (state.fetching) {
-                        true -> {
+            BreedsList(
+                paddingValues = it,
+                items = if (state.filteredBreeds.isNotEmpty()) {
+                    state.filteredBreeds
+                } else {
+                    state.allBreedsFromState
+                },
+                onItemClick = onItemClick,
+            )
+            if(state.allBreedsFromState.isEmpty()){
+                when (state.fetching) {
+                    true -> {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            CircularProgressIndicator()
+                        }
+                    }
+
+                    false -> {
+                        if (state.error != null) {
                             Box(
                                 modifier = Modifier.fillMaxSize(),
                                 contentAlignment = Alignment.Center,
                             ) {
-                                CircularProgressIndicator()
+                                val errorMessage = when (state.error) {
+                                    is BreedsListState.ListError.ListUpdateFailed ->
+                                        "Failed to load. Error message: ${state.error.cause?.message}."
+                                }
+                                Text(text = errorMessage)
                             }
-                        }
-
-                        false -> {
-                            if (state.error != null) {
-                                Box(
-                                    modifier = Modifier.fillMaxSize(),
-                                    contentAlignment = Alignment.Center,
-                                ) {
-                                    val errorMessage = when (state.error) {
-                                        is BreedsListState.ListError.ListUpdateFailed ->
-                                            "Failed to load. Error message: ${state.error.cause?.message}."
-                                    }
-                                    Text(text = errorMessage)
-                                }
-                            } else {
-                                Box(
-                                    modifier = Modifier.fillMaxSize(),
-                                    contentAlignment = Alignment.Center,
-                                ) {
-                                    Text(text = "No cat breeds.")
-                                }
+                        } else {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                Text(text = "No cat breeds.")
                             }
                         }
                     }
