@@ -4,10 +4,13 @@ import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,15 +18,20 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -34,6 +42,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -45,6 +54,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
+import com.example.catalist_android_compose.breeds.core.compose.theme.Purple80
+import com.example.catalist_android_compose.breeds.domain.Cat
 
 @Composable
 fun AppIconButton(
@@ -211,6 +222,113 @@ private fun NoDataContent(
             text = "There is no data for id '$id'.",
             fontSize = 18.sp,
         )
+    }
+}
+
+
+@Composable
+fun BreedDetailItem(title: String, detail: String) {
+    Row {
+        Text(text = title, fontSize = 20.sp)
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(text = detail, fontSize = 20.sp)
+    }
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CatListItem(
+    data: Cat,
+    onClick: () -> Unit,
+) {
+    Card(
+        modifier = Modifier
+            .padding(horizontal = 30.dp)
+            .fillMaxWidth()
+            .clickable {
+                onClick()
+            },
+        colors = CardDefaults.cardColors(Purple80) // Pinkish color
+    )  {
+        Text(
+            modifier = Modifier.padding(all = 16.dp),
+            text = data.name,
+            fontSize = 32.sp
+        )
+
+        Row {
+            val description_sentences = data.description.split(".")
+            Text(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .padding(bottom = 16.dp)
+                    .weight(weight = 1f),
+                text = description_sentences.get(0),
+            )
+
+            Icon(
+                modifier = Modifier.padding(end = 16.dp),
+                imageVector = Icons.Default.KeyboardArrowRight,
+                contentDescription = null,
+            )
+        }
+        Row {
+            Text(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .padding(bottom = 16.dp)
+                    .weight(weight = 1f),
+                text = if (data.alternateName != null && data.alternateName.isNotBlank()) "Also known as: ${data.alternateName}" else "Also known as: Unknown",
+            )
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        if (data.temperament.isNotBlank()) { // Check if temperament is not empty
+            val temperamentList =
+                data.temperament.split(", ") // Split temperament string into words
+            temperamentList.take(3).forEach { temperament ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    AssistChipExample(title = temperament)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun BreedsList(
+    items:List<Cat>,
+    paddingValues: PaddingValues,
+    onItemClick: (Cat) -> Unit
+){
+    val scrollState = rememberScrollState()
+    Column(
+        modifier = Modifier
+            .verticalScroll(scrollState)
+            .fillMaxSize()
+            .padding(paddingValues),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top,
+    ) {
+        Spacer(modifier = Modifier.height(16.dp))
+
+        items.forEach {
+            Column {
+                key(it.name) {
+                    CatListItem(
+                        data = it,
+                        onClick = {
+                            onItemClick(it)
+                        },
+                    )
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+        }
     }
 }
 

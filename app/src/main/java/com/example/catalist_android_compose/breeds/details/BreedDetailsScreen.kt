@@ -44,6 +44,7 @@ import androidx.navigation.compose.composable
 import com.example.catalist_android_compose.breeds.core.compose.AppIconButton
 import com.example.catalist_android_compose.breeds.core.compose.AssistChipExample
 import com.example.catalist_android_compose.breeds.core.compose.BreedAttributeScoring
+import com.example.catalist_android_compose.breeds.core.compose.BreedDetailItem
 import com.example.catalist_android_compose.breeds.core.compose.CoilImage
 import com.example.catalist_android_compose.breeds.core.compose.RareIndicator
 import com.example.catalist_android_compose.breeds.core.compose.WikipediaButton
@@ -116,12 +117,7 @@ fun BreedDetailsScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Box(Modifier.height(200.dp)) {
-                    //easter egg
-                    if (state.data?.name.equals("tigar")) {
-                        state.data?.let { CoilImage(url = "https://preview.redd.it/2h8agc9y3hx81.png?width=1080&crop=smart&auto=webp&s=527ddea80f673d5fc3c36b84ea91c2bec862e67c") }
-                    } else {
-                        state.data?.let { CoilImage(url = it.url) }
-                    }
+                    state.data?.let { CoilImage(url = it.url) }
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 Card(
@@ -214,14 +210,5 @@ fun BreedDetailsScreen(
             }
         }
     )
-}
-
-@Composable
-fun BreedDetailItem(title: String, detail: String) {
-    Row {
-        Text(text = title, fontSize = 20.sp)
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(text = detail, fontSize = 20.sp)
-    }
 }
 
